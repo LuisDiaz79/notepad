@@ -1,0 +1,22 @@
+*{
+    box-sizing: border-box;
+    text-align: center;
+    outline: 1px dotted red;
+}
+
+body{
+    background-color: darkgray;
+    color: black;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    background-color: #fff;
+    background-image: url("../images/background.jpg");
+    background-repeat: repeat;
+    background-attachment: fixed;
+    background-position: center; 
+}
+.nav-header{
+    padding: 20px 0;
+}
+.title{
+    margin: 15px auto;
+}
