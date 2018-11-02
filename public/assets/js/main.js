@@ -163,7 +163,7 @@ const delNote = function (event) {
     let note = $(this).data();
 
     $.ajax({
-        url: "/api/notes/" + note.id,
+        url: `/api/notes/${note.id}`,
         method: "DELETE"
     })
         .then(function () {

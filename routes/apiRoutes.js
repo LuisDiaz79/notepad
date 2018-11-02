@@ -3,7 +3,8 @@ var connection = require("../db/connection");
 
 router.get("/api/notes", function (req, res) {
 
-    connection.query("SELECT * FROM notes", function (err, dbTables) {1 
+    connection.query("SELECT * FROM notes", function (err, dbTables) {
+        1
         if (err) {
             console.log(err);
             return res.status(500).end();
@@ -12,28 +13,33 @@ router.get("/api/notes", function (req, res) {
     });
 });
 
-router.post("/api/notes", function(req, res){
-    connection.query("INSERT INTO notes SET ?", [req.body], function(err, result) {
+router.post("/api/notes", function (req, res) {
+    connection.query("INSERT INTO notes SET ?", [req.body], function (err, result) {
         if (err) throw err;
-    
+
         res.json(result);
-      });
+    });
 });
 
-router.put("/api/notes/:note", function(req, res){
+router.put("/api/notes/:note", function (req, res) {
     console.log(req.body);
     console.log(req.params.id);
-    connection.query("UPDATE notes SET ? WHERE id = ?", [req.body, req.body.id], function(err, result) {
+    connection.query("UPDATE notes SET ? WHERE id = ?", [req.body, req.body.id], function (err, result) {
         if (err) console.log(err);
-    
+
         console.log(result);
         res.json(result);
-      });
+    });
 });
-router.delete("/api/notes/:note", function(req, res){
+router.delete("/api/notes/:note", function (req, res) {
     console.log(req.body);
     console.log(req.params.id);
-    
+    console.log(req.params.noteId);
+    connection.query("DELETE FROM notes WHERE id=?", req.params.noteId, function (err, result) {
+        if (err) throw err;
+        res.json(result);
+    });
+
 });
 
 module.exports = router;
