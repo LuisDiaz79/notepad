@@ -1,4 +1,4 @@
-DROP DATABASE IF EXISTS notepad_db;
+DROP DATABASE IF EXISTS ywdmcwrn64dj7g4x;
 CREATE DATABASE notepad_db;
 USE notepad_db;
 

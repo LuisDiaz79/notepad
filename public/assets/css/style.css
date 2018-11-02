@@ -1,7 +1,7 @@
 *{
     box-sizing: border-box;
     text-align: center;
-    outline: 1px dotted red;
+    /* outline: 1px dotted red; */
 }
 
 body{
@@ -17,6 +17,17 @@ body{
 .nav-header{
     padding: 20px 0;
 }
+.card-item{
+    margin: 10px auto;
+}
 .title{
     margin: 15px auto;
+}
+.content{
+    min-height: 400px;
+
+}
+.editImg{
+    float: right;
+    max-width: 30px;
 }

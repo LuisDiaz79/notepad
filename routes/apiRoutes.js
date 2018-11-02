@@ -12,5 +12,12 @@ router.get("/api/notes", function (req, res) {
     });
 });
 
+router.post("/api/notes", function(req, res){
+    connection.query("INSERT INTO notes SET ?", [req.body], function(err, result) {
+        if (err) throw err;
+    
+        res.json(result);
+      });
+});
 
 module.exports = router;
