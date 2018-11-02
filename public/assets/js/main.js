@@ -6,6 +6,7 @@ let $seeNote = $('#seeNote');
 let $editNote = $('.editImg');
 
 
+
 var getAndRenderNotes = function () {
     $.ajax({
         url: "/api/notes",
@@ -19,7 +20,10 @@ var getAndRenderNotes = function () {
             let card = $('<div class="card card-item">');
             let cBody = $('<div class="card-body note-item">').data(note);
             let cTitle = $('<h5 class="card-title text-left">').text(note.title);
-            let cEdit = $('<div >').append($('<img src="./assets/images/pen.png" alt="img" class="editImg">').on("click", editNote).data(note));
+            let cEdit = $('<div >')
+                .append($('<img src="./assets/images/pen.png" alt="img" class="editImg">').on("click", editNote).data(note))
+                .append($('<img src="./assets/images/trash.jpeg" alt="img" class="delImg">').on("click", delNote).data(note));
+            
 
 
             card.append(cBody.append(cTitle), cEdit);
@@ -44,8 +48,7 @@ var seeNote = function () {
     let cTitle = $('<h2 class="card-title text-left">').text(note.title);
     let cCont = $('<p>').append($('<h4 class="card-text text-left">').text(note.note));
 
-    $seeNote.empty();
-    $('#newNote').empty();
+    cleanBoard();
     $seeNote.append(
         card.append(
             cBody.append(cTitle, $('<br>'), cCont)
@@ -66,8 +69,7 @@ const newNote = function () {
 
     let $fGroupB = $('<button type="submit" class="btn btn-primary add-note submit-btn">').text('Save');
     $fGroupB.on("click", addNote);
-    $('#newNote').empty();
-    $seeNote.empty();
+    cleanBoard();
     $form.append(
         $fGroupT.append($fLabelT, $fInputT),
         $fGroupN.append($fLabelN, $fInputN),
@@ -105,11 +107,75 @@ const addNote = function (event) {
 const editNote = function (event) {
     event.preventDefault();
     console.log('EDIT NOTE');
-    $('#newNote').empty();
-    $seeNote.empty();
+    cleanBoard();
 
     let note = $(this).data();
     console.log(note);
+    let card = $('<div class="card content">');
+    let cBody = $('<div class="card-body">');
+    let cForm = $('<form>').data(note);
+    let cTitle = $('<input id="uTitle" class="form-control text-left">').val(note.title);
+    let cCont = $('<textarea id="uNote" class="form-control text-left">').val(note.note);
+    let fGroupB = $('<button type="submit" class="btn btn-primary add-note edit-btn">').text('Save');
+    
+    fGroupB.on("click", updateNote);
+    $('#editNote').append(
+        card.append(
+            cBody.append(cForm.append(
+                cTitle, $('<br>'), cCont, $('<br>'), fGroupB)
+            )
+        )
+    );
+}
+
+const updateNote = function (event) {
+    event.preventDefault();
+    console.log('UPDATE NOTE');
+
+    let fTitle = $('#uTitle').val();
+    let fNote = $('#uNote').val();
+
+
+
+    let note = $(this).parent().data();
+    note.title = fTitle;
+    note.note = fNote;
+    delete note.note_date;
+
+    $.ajax({
+        url: "/api/notes/" + note.id,
+        method: "PUT",
+        data: note
+    })
+        .then(function () {
+            cleanBoard();
+
+            getAndRenderNotes();
+        });
+
+}
+
+const delNote = function (event) {
+    event.preventDefault();
+    console.log('DELETE NOTE');
+    console.log($(this).data());
+
+    let note = $(this).data();
+
+    $.ajax({
+        url: "/api/notes/" + note.id,
+        method: "DELETE"
+    })
+        .then(function () {
+            getAndRenderNotes();
+        });
+
+}
+
+let cleanBoard = () => {
+    $('#newNote').empty();
+    $('#editNote').empty();
+    $seeNote.empty();
 }
 
 getAndRenderNotes();
