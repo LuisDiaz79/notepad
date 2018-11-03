@@ -32,10 +32,8 @@ router.put("/api/notes/:note", function (req, res) {
     });
 });
 router.delete("/api/notes/:note", function (req, res) {
-    console.log(req.body);
-    console.log(req.params.id);
-    console.log(req.params.noteId);
-    connection.query("DELETE FROM notes WHERE id=?", req.params.noteId, function (err, result) {
+
+    connection.query("DELETE FROM notes WHERE id=?", req.params.note, function (err, result) {
         if (err) throw err;
         res.json(result);
     });
